@@ -1,0 +1,1270 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Portal do Apoiador · Cidadão e Rede</title>
+<style>
+:root {
+  --navy: #1A2744;
+  --navy-l: #D6DCE9;
+  --red: #C0392B;
+  --amber: #E67E22;
+  --amber-l: #FDEBD0;
+  --green: #27AE60;
+  --green-l: #D5F5E3;
+  --teal: #0F6E56;
+  --teal-l: #E1F5EE;
+  --purple: #534AB7;
+  --purple-l: #EEEDFE;
+  --gray: #2C3E50;
+  --gray-l: #F2F3F4;
+  --white: #FFFFFF;
+  --text: #1A1A2E;
+  --text-2: #666677;
+  --border: #DDE0E8;
+  --bg: #F0F2F7;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: 'Segoe UI', Arial, sans-serif; background: var(--bg); color: var(--text); }
+
+/* LOGIN */
+.login-wrap { min-height: 100vh; display: flex; align-items: center; justify-content: center; background: var(--navy); }
+.login-box { background: white; border-radius: 14px; padding: 44px 40px; width: 100%; max-width: 400px; text-align: center; }
+.login-icon { width: 64px; height: 64px; background: var(--amber); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 22px; font-size: 26px; font-weight: 900; color: white; letter-spacing: -1px; }
+.login-title { font-size: 22px; font-weight: 800; color: var(--navy); margin-bottom: 4px; }
+.login-sub { font-size: 13px; color: var(--text-2); margin-bottom: 6px; }
+.login-tagline { font-size: 12px; color: var(--teal); font-style: italic; margin-bottom: 28px; }
+.login-box input { width: 100%; padding: 13px 14px; border: 1.5px solid var(--border); border-radius: 9px; font-size: 15px; letter-spacing: .12em; text-align: center; margin-bottom: 14px; outline: none; }
+.login-box input:focus { border-color: var(--amber); }
+.login-btn { width: 100%; padding: 13px; background: var(--navy); color: white; border: none; border-radius: 9px; font-size: 14px; font-weight: 700; cursor: pointer; }
+.login-btn:hover { background: var(--amber); }
+.login-err { color: var(--red); font-size: 12px; margin-top: 10px; display: none; }
+.login-nota { font-size: 11px; color: var(--text-2); margin-top: 18px; line-height: 1.5; }
+
+/* HEADER */
+.site-header { background: var(--navy); padding: 0; position: sticky; top: 0; z-index: 100; }
+.header-top { display: flex; align-items: center; justify-content: space-between; padding: 14px 32px; }
+.header-brand { display: flex; align-items: center; gap: 12px; }
+.header-icon { width: 38px; height: 38px; background: var(--amber); border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 16px; font-weight: 900; color: white; }
+.header-title { font-size: 18px; font-weight: 800; color: white; }
+.header-sub { font-size: 11px; color: rgba(255,255,255,.45); margin-top: 1px; }
+.header-right { font-size: 11px; color: rgba(255,255,255,.4); text-align: right; }
+
+/* NAV */
+.site-nav { background: rgba(255,255,255,.06); border-top: 1px solid rgba(255,255,255,.08); padding: 0 32px; display: flex; gap: 0; overflow-x: auto; scrollbar-width: none; }
+.site-nav::-webkit-scrollbar { display: none; }
+.nav-btn { padding: 12px 16px; font-size: 12px; font-weight: 500; color: rgba(255,255,255,.55); background: none; border: none; border-bottom: 3px solid transparent; cursor: pointer; white-space: nowrap; transition: color .15s, border-color .15s; }
+.nav-btn:hover { color: white; }
+.nav-btn.active { color: white; border-bottom-color: var(--amber); font-weight: 700; }
+
+/* HERO */
+.hero { background: linear-gradient(135deg, var(--navy) 0%, #2A3F6B 100%); padding: 64px 32px 56px; text-align: center; }
+.hero-eyebrow { display: inline-block; background: var(--amber); color: white; font-size: 11px; font-weight: 700; padding: 4px 14px; border-radius: 99px; letter-spacing: .08em; text-transform: uppercase; margin-bottom: 20px; }
+.hero h1 { font-size: 42px; font-weight: 900; color: white; line-height: 1.15; margin-bottom: 16px; }
+.hero h1 span { color: var(--amber); }
+.hero-desc { font-size: 16px; color: rgba(255,255,255,.7); max-width: 600px; margin: 0 auto 32px; line-height: 1.7; }
+.hero-pills { display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; }
+.pill { background: rgba(255,255,255,.1); color: rgba(255,255,255,.8); font-size: 12px; padding: 6px 14px; border-radius: 99px; border: 1px solid rgba(255,255,255,.15); }
+
+/* MAIN */
+.main { max-width: 1100px; margin: 0 auto; padding: 40px 24px 80px; }
+.tab { display: none; }
+.tab.active { display: block; }
+
+/* SECTION */
+.sec-title { font-size: 11px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: var(--text-2); margin: 36px 0 14px; padding-bottom: 8px; border-bottom: 1px solid var(--border); }
+.sec-title:first-child { margin-top: 0; }
+
+/* CARDS */
+.cards { display: grid; gap: 16px; }
+.cards-2 { grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); }
+.cards-3 { grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); }
+.card { background: white; border-radius: 12px; border: 1px solid var(--border); overflow: hidden; }
+.card-color-top { height: 5px; }
+.card-body { padding: 20px; }
+.card-icon { font-size: 28px; margin-bottom: 12px; }
+.card-title { font-size: 15px; font-weight: 700; color: var(--navy); margin-bottom: 8px; }
+.card-text { font-size: 13px; color: var(--text-2); line-height: 1.6; }
+.card-link { display: inline-block; margin-top: 12px; font-size: 12px; font-weight: 700; color: var(--teal); text-decoration: none; }
+.card-link:hover { text-decoration: underline; }
+
+/* BLOCOS DE CONTEÚDO */
+.content-block { background: white; border-radius: 12px; border: 1px solid var(--border); padding: 28px 32px; margin-bottom: 20px; }
+.content-block h2 { font-size: 20px; font-weight: 800; color: var(--navy); margin-bottom: 14px; }
+.content-block h3 { font-size: 15px; font-weight: 700; color: var(--navy); margin: 20px 0 8px; }
+.content-block p { font-size: 14px; color: var(--text-2); line-height: 1.75; margin-bottom: 12px; }
+.content-block ul { padding-left: 20px; margin-bottom: 12px; }
+.content-block ul li { font-size: 14px; color: var(--text-2); line-height: 1.75; margin-bottom: 4px; }
+.content-block strong { color: var(--text); }
+
+/* DESTAQUE */
+.destaque { background: var(--navy-l); border-left: 5px solid var(--navy); border-radius: 0 10px 10px 0; padding: 16px 20px; margin: 16px 0; }
+.destaque p { font-size: 14px; color: var(--navy); font-weight: 600; line-height: 1.6; margin: 0; }
+
+.destaque-amber { background: var(--amber-l); border-left-color: var(--amber); }
+.destaque-amber p { color: #7A4A00; }
+
+.destaque-teal { background: var(--teal-l); border-left-color: var(--teal); }
+.destaque-teal p { color: var(--teal); }
+
+/* LINHA DO TEMPO */
+.timeline { display: flex; flex-direction: column; gap: 0; }
+.tl-item { display: flex; gap: 0; }
+.tl-left { width: 40px; flex-shrink: 0; display: flex; flex-direction: column; align-items: center; }
+.tl-dot { width: 14px; height: 14px; border-radius: 50%; flex-shrink: 0; border: 3px solid var(--amber); background: white; margin-top: 4px; }
+.tl-line { width: 2px; flex: 1; background: var(--border); margin: 4px 0; min-height: 20px; }
+.tl-body { flex: 1; padding: 0 0 24px 12px; }
+.tl-title { font-size: 14px; font-weight: 700; color: var(--navy); margin-bottom: 4px; }
+.tl-text { font-size: 13px; color: var(--text-2); line-height: 1.6; }
+
+/* ORGANOGRAMA */
+.org { display: flex; flex-direction: column; align-items: center; gap: 0; }
+.org-level { display: flex; justify-content: center; gap: 10px; flex-wrap: wrap; width: 100%; }
+.org-conn { width: 2px; height: 20px; background: var(--border); margin: 0 auto; }
+.org-node { background: white; border-radius: 9px; border: 1px solid var(--border); padding: 12px 16px; min-width: 140px; max-width: 185px; text-align: center; border-top: 4px solid var(--navy); }
+.org-node.amber  { border-top-color: var(--amber); }
+.org-node.teal   { border-top-color: var(--teal); }
+.org-node.purple { border-top-color: var(--purple); }
+.org-node.coral  { border-top-color: #993C1D; }
+.org-node.gray   { border-top-color: var(--gray); }
+.org-nt { font-size: 12px; font-weight: 700; color: var(--navy); }
+.org-node.amber .org-nt  { color: var(--amber); }
+.org-node.teal .org-nt   { color: var(--teal); }
+.org-node.purple .org-nt { color: var(--purple); }
+.org-node.coral .org-nt  { color: #993C1D; }
+.org-ns { font-size: 10px; color: var(--text-2); margin-top: 3px; line-height: 1.4; }
+.org-lbl { font-size: 10px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; color: var(--text-2); margin: 8px 0 6px; text-align: center; width: 100%; }
+
+/* CADEIA */
+.cadeia { display: flex; gap: 0; align-items: stretch; overflow-x: auto; padding-bottom: 8px; }
+.cadeia-item { flex: 1; min-width: 140px; background: white; border: 1px solid var(--border); padding: 16px 14px; text-align: center; position: relative; }
+.cadeia-item:first-child { border-radius: 10px 0 0 10px; }
+.cadeia-item:last-child  { border-radius: 0 10px 10px 0; }
+.cadeia-num { font-size: 24px; font-weight: 900; margin-bottom: 6px; }
+.cadeia-title { font-size: 13px; font-weight: 700; color: var(--navy); margin-bottom: 4px; }
+.cadeia-text  { font-size: 11px; color: var(--text-2); line-height: 1.5; }
+.cadeia-arrow { position: absolute; right: -12px; top: 50%; transform: translateY(-50%); font-size: 18px; color: var(--amber); z-index: 1; }
+
+/* PDCA */
+.pdca { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 12px; }
+.pdca-item { background: white; border-radius: 10px; border: 1px solid var(--border); padding: 16px; border-top: 4px solid var(--teal); }
+.pdca-label { font-size: 22px; font-weight: 900; color: var(--teal); margin-bottom: 4px; }
+.pdca-title { font-size: 13px; font-weight: 700; color: var(--navy); margin-bottom: 6px; }
+.pdca-text  { font-size: 12px; color: var(--text-2); line-height: 1.5; }
+
+/* BADGE */
+.badge { display: inline-block; padding: 3px 9px; border-radius: 99px; font-size: 10px; font-weight: 700; letter-spacing: .04em; text-transform: uppercase; }
+.b-teal   { background: var(--teal-l); color: var(--teal); }
+.b-amber  { background: var(--amber-l); color: var(--amber); }
+.b-purple { background: var(--purple-l); color: var(--purple); }
+.b-navy   { background: var(--navy-l); color: var(--navy); }
+
+/* LINKS EXTERNOS */
+.link-list { display: flex; flex-direction: column; gap: 10px; }
+.link-item { background: white; border-radius: 10px; border: 1px solid var(--border); padding: 14px 18px; display: flex; gap: 14px; align-items: flex-start; text-decoration: none; color: inherit; transition: border-color .15s; }
+.link-item:hover { border-color: var(--teal); }
+.link-item-icon { width: 38px; height: 38px; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 18px; flex-shrink: 0; }
+.link-item-body { flex: 1; }
+.link-item-title { font-size: 14px; font-weight: 700; color: var(--navy); margin-bottom: 3px; }
+.link-item-desc { font-size: 12px; color: var(--text-2); line-height: 1.5; }
+.link-item-tag { font-size: 10px; color: var(--teal); font-weight: 700; margin-top: 4px; }
+
+/* CADASTRO / FORMULÁRIO */
+.form-box { background: white; border-radius: 12px; border: 1px solid var(--border); padding: 32px; }
+.form-box h2 { font-size: 20px; font-weight: 800; color: var(--navy); margin-bottom: 8px; }
+.form-box p { font-size: 14px; color: var(--text-2); margin-bottom: 24px; line-height: 1.6; }
+.placeholder-box { background: var(--amber-l); border: 2px dashed var(--amber); border-radius: 10px; padding: 24px; text-align: center; }
+.placeholder-box p { color: #7A4A00; font-size: 13px; font-weight: 600; margin: 0; }
+.placeholder-box small { color: #9A6A10; font-size: 11px; }
+
+/* PERGUNTAS */
+.faq { display: flex; flex-direction: column; gap: 10px; }
+.faq-item { background: white; border-radius: 10px; border: 1px solid var(--border); overflow: hidden; }
+.faq-q { padding: 16px 20px; font-size: 14px; font-weight: 700; color: var(--navy); cursor: pointer; display: flex; justify-content: space-between; align-items: center; }
+.faq-q:hover { background: var(--gray-l); }
+.faq-a { padding: 0 20px 16px; font-size: 13px; color: var(--text-2); line-height: 1.7; display: none; }
+.faq-a.open { display: block; }
+
+/* SUGESTOES */
+.sugestao-box { background: white; border-radius: 12px; border: 1px solid var(--border); padding: 28px 32px; }
+.sugestao-box h3 { font-size: 16px; font-weight: 700; color: var(--navy); margin-bottom: 8px; }
+.sugestao-box p { font-size: 13px; color: var(--text-2); margin-bottom: 16px; line-height: 1.6; }
+
+/* FOOTER */
+.site-footer { background: var(--navy); color: rgba(255,255,255,.4); font-size: 11px; text-align: center; padding: 20px; margin-top: 40px; }
+
+@media(max-width:600px) {
+  .hero h1 { font-size: 28px; }
+  .header-top { padding: 12px 16px; }
+  .site-nav { padding: 0 8px; }
+  .main { padding: 24px 12px 60px; }
+  .content-block { padding: 20px 18px; }
+  .cadeia { flex-direction: column; }
+  .cadeia-item { border-radius: 10px; min-width: unset; }
+  .cadeia-arrow { display: none; }
+}
+
+/* ── PAINEL DE GESTÃO ─────────────────────────────────────────── */
+.painel-login { background: var(--navy); border-radius: 12px; padding: 32px; text-align: center; max-width: 400px; margin: 40px auto; }
+.painel-login h3 { font-size: 16px; font-weight: 700; color: white; margin-bottom: 8px; }
+.painel-login p { font-size: 12px; color: rgba(255,255,255,.5); margin-bottom: 20px; }
+.painel-login input { width: 100%; padding: 11px 14px; border: 1.5px solid rgba(255,255,255,.2); border-radius: 8px; font-size: 14px; letter-spacing: .1em; text-align: center; margin-bottom: 12px; background: rgba(255,255,255,.08); color: white; outline: none; }
+.painel-login input::placeholder { color: rgba(255,255,255,.35); }
+.painel-login input:focus { border-color: var(--amber); }
+.painel-login button { width: 100%; padding: 11px; background: var(--amber); color: white; border: none; border-radius: 8px; font-size: 13px; font-weight: 700; cursor: pointer; }
+.painel-login button:hover { background: white; color: var(--navy); }
+.painel-err { color: var(--red); font-size: 12px; margin-top: 8px; display: none; }
+.meta-total { background: var(--navy); border-radius: 10px; padding: 20px 24px; margin-bottom: 22px; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 12px; }
+.meta-num { font-size: 38px; font-weight: 900; color: white; line-height: 1; }
+.meta-label { font-size: 11px; color: rgba(255,255,255,.5); text-transform: uppercase; letter-spacing: .08em; }
+.meta-tag { background: var(--amber); color: white; font-size: 11px; font-weight: 700; padding: 4px 12px; border-radius: 99px; }
+.meta-conv { font-size: 11px; color: rgba(255,255,255,.4); margin-top: 5px; }
+.cards-g { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px,1fr)); gap: 14px; }
+.card-g { background: white; border-radius: 10px; border: 1px solid var(--border); overflow: hidden; }
+.card-hd { padding: 13px 16px 10px; display: flex; align-items: center; gap: 9px; }
+.card-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
+.card-nm { font-size: 13px; font-weight: 700; }
+.card-bd { padding: 0 16px 14px; }
+.big-num { font-size: 30px; font-weight: 900; line-height: 1; margin-bottom: 1px; }
+.big-lbl { font-size: 10px; color: var(--text-2); text-transform: uppercase; letter-spacing: .05em; margin-bottom: 12px; }
+.ind-r { display: flex; justify-content: space-between; align-items: center; padding: 6px 0; border-top: 1px solid var(--border); font-size: 12px; }
+.ind-l { color: var(--text-2); }
+.ind-v { font-weight: 700; }
+.bdg { display: inline-block; padding: 3px 8px; border-radius: 99px; font-size: 10px; font-weight: 700; letter-spacing: .04em; text-transform: uppercase; white-space: nowrap; }
+.b-u { background: var(--red-l); color: var(--red); }
+.b-p { background: var(--gray-l); color: var(--gray); }
+.b-a { background: var(--amber-l); color: var(--amber); }
+.b-c { background: var(--green-l); color: var(--green); }
+.b-av { background: var(--navy-l); color: var(--navy); }
+.tbl-w { background: white; border-radius: 10px; border: 1px solid var(--border); overflow: hidden; }
+table { width: 100%; border-collapse: collapse; font-size: 12px; }
+thead th { background: var(--navy); color: white; padding: 9px 13px; text-align: left; font-size: 11px; font-weight: 600; letter-spacing: .04em; text-transform: uppercase; }
+tbody tr { border-bottom: 1px solid var(--border); }
+tbody tr:last-child { border-bottom: none; }
+tbody tr:nth-child(even) td { background: var(--gray-l); }
+td { padding: 9px 13px; vertical-align: top; line-height: 1.45; }
+.update-btn { position: fixed; bottom: 24px; right: 24px; background: var(--amber); color: white; border: none; border-radius: 99px; padding: 12px 20px; font-size: 13px; font-weight: 700; cursor: pointer; box-shadow: 0 4px 16px rgba(230,126,34,.4); z-index: 200; display: none; }
+.update-btn.show { display: block; }
+.update-btn:hover { background: var(--navy); }
+.modal-bg { display: none; position: fixed; inset: 0; background: rgba(26,39,68,.6); z-index: 300; align-items: center; justify-content: center; }
+.modal-bg.open { display: flex; }
+.modal { background: white; border-radius: 12px; padding: 28px; width: 100%; max-width: 520px; max-height: 85vh; overflow-y: auto; }
+.modal h2 { font-size: 16px; font-weight: 700; color: var(--navy); margin-bottom: 4px; }
+.modal > p { font-size: 12px; color: var(--text-2); margin-bottom: 20px; }
+.field { margin-bottom: 14px; }
+.field label { display: block; font-size: 11px; font-weight: 700; color: var(--text-2); text-transform: uppercase; letter-spacing: .06em; margin-bottom: 5px; }
+.field input, .field select { width: 100%; padding: 9px 11px; border: 1.5px solid var(--border); border-radius: 7px; font-size: 13px; outline: none; }
+.field input:focus, .field select:focus { border-color: var(--amber); }
+.modal-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.modal-actions { display: flex; gap: 10px; margin-top: 20px; }
+.modal-save { flex: 1; padding: 11px; background: var(--navy); color: white; border: none; border-radius: 8px; font-size: 13px; font-weight: 700; cursor: pointer; }
+.modal-save:hover { background: var(--amber); }
+.modal-cancel { padding: 11px 18px; background: none; border: 1.5px solid var(--border); border-radius: 8px; font-size: 13px; cursor: pointer; }
+.org-nivel { font-size: 10px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; color: var(--text-2); margin: 8px 0 6px; text-align: center; width: 100%; }
+.org-wrap { display: flex; flex-direction: column; align-items: center; gap: 0; }
+.org-lv { display: flex; justify-content: center; gap: 10px; flex-wrap: wrap; width: 100%; }
+.org-cn { width: 2px; height: 20px; background: var(--border); margin: 0 auto; }
+.org-nd { background: white; border-radius: 8px; border: 1px solid var(--border); padding: 11px 14px; min-width: 140px; max-width: 185px; text-align: center; border-top: 4px solid var(--navy); }
+.org-nd.teal { border-top-color: var(--teal); }
+.org-nd.amber { border-top-color: var(--amber); }
+.org-nd.purple { border-top-color: var(--purple); }
+.org-nd.coral { border-top-color: #993C1D; }
+.org-nd.gray { border-top-color: var(--gray); }
+.org-nt { font-size: 12px; font-weight: 700; color: var(--navy); }
+.org-nd.teal .org-nt { color: var(--teal); }
+.org-nd.amber .org-nt { color: var(--amber); }
+.org-nd.purple .org-nt { color: var(--purple); }
+.org-nd.coral .org-nt { color: #993C1D; }
+.org-ns { font-size: 10px; color: var(--text-2); margin-top: 3px; line-height: 1.4; }
+.org-tg { display: inline-block; margin-top: 5px; background: var(--amber-l); color: var(--amber); font-size: 9px; font-weight: 700; padding: 2px 7px; border-radius: 99px; }
+.preoc-lst { display: flex; flex-direction: column; gap: 9px; }
+.preoc-it { background: white; border-radius: 8px; border: 1px solid var(--border); padding: 13px 16px; display: flex; gap: 12px; }
+.preoc-bv { width: 5px; border-radius: 99px; flex-shrink: 0; align-self: stretch; min-height: 36px; }
+.preoc-bv.alto { background: var(--red); }
+.preoc-bv.medio { background: var(--amber); }
+.preoc-bo { flex: 1; }
+.preoc-tt { font-size: 13px; font-weight: 700; margin-bottom: 3px; }
+.preoc-dc { font-size: 12px; color: var(--text-2); line-height: 1.5; }
+.preoc-ob { font-size: 11px; color: var(--red); margin-top: 4px; font-style: italic; }
+</style>
+</head>
+<body>
+
+<!-- LOGIN -->
+<div class="login-wrap" id="login-screen">
+  <div class="login-box">
+    <div class="login-icon">PA</div>
+    <div class="login-title">Portal do Apoiador</div>
+    <div class="login-sub">Cidadão e Rede · Pré-campanha 2026</div>
+    <div class="login-tagline">Entender o jogo é o primeiro passo para mudar o resultado</div>
+    <input type="password" id="pwd" placeholder="senha de acesso" onkeydown="if(event.key==='Enter')login()">
+    <button class="login-btn" onclick="login()">Entrar</button>
+    <div class="login-err" id="pwd-err">Senha incorreta.</div>
+    <div class="login-nota">Este é um espaço restrito de formação política.<br>Acesso mediante convite da coordenação.</div>
+  </div>
+</div>
+
+<!-- SITE -->
+<div id="site" style="display:none">
+
+<header class="site-header">
+  <div class="header-top">
+    <div class="header-brand">
+      <div class="header-icon">PA</div>
+      <div>
+        <div class="header-title">Portal do Apoiador</div>
+        <div class="header-sub">Cidadão e Rede · Pré-campanha 2026</div>
+      </div>
+    </div>
+    <div class="header-right">Acesso restrito<br>Pré-campanha 2026</div>
+  </div>
+  <nav class="site-nav">
+    <button class="nav-btn active" onclick="showTab('inicio',this)">Início</button>
+    <button class="nav-btn" onclick="showTab('jogo',this)">Entender o jogo</button>
+    <button class="nav-btn" onclick="showTab('redes',this)">Campanha e redes</button>
+    <button class="nav-btn" onclick="showTab('campanha',this)">Como a campanha se organiza</button>
+    <button class="nav-btn" onclick="showTab('participar',this)">Como participar</button>
+    <button class="nav-btn" onclick="showTab('noticias',this)">Notícias e Atualizações</button>
+    <button class="nav-btn" onclick="showTab('perguntas',this)">Perguntas e sugestões</button>
+    <button class="nav-btn" onclick="showTab('painel',this)" style="border-left:2px solid rgba(255,255,255,.15);margin-left:8px;color:var(--amber)">⚙ Painel de Gestão</button>
+  </nav>
+</header>
+
+<div id="tab-inicio" class="tab active">
+  <div class="hero">
+    <div class="hero-eyebrow">Portal do Apoiador · Pré-campanha 2026</div>
+    <h1>Cidadão <span>e Rede</span></h1>
+    <p class="hero-desc">Um espaço para entender como funciona a política, como as campanhas se organizam na era das redes sociais e como cada pessoa pode participar de forma estratégica e efetiva.</p>
+    <div class="hero-pills">
+      <span class="pill">Educação política</span>
+      <span class="pill">Estratégia de campanha</span>
+      <span class="pill">Engajamento digital</span>
+      <span class="pill">Participação cidadã</span>
+    </div>
+  </div>
+
+  <div class="main">
+    <div class="sec-title">O que você encontra aqui</div>
+    <div class="cards cards-3">
+      <div class="card">
+        <div class="card-color-top" style="background:var(--navy)"></div>
+        <div class="card-body">
+          <div class="card-icon">🗳️</div>
+          <div class="card-title">Entender o jogo</div>
+          <div class="card-text">Como funciona o voto proporcional, o quociente eleitoral e por que candidaturas progressistas têm desafios específicos no sistema eleitoral brasileiro.</div>
+          <span class="card-link" onclick="showTab('jogo',null);scrollTo(0,0)">Ler mais →</span>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-color-top" style="background:var(--teal)"></div>
+        <div class="card-body">
+          <div class="card-icon">📱</div>
+          <div class="card-title">Campanha e redes sociais</div>
+          <div class="card-text">Como as campanhas políticas mudaram na era digital, o papel do engajamento coordenado e como movimentos sociais criam janelas estratégicas para candidaturas.</div>
+          <span class="card-link" onclick="showTab('redes',null);scrollTo(0,0)">Ler mais →</span>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-color-top" style="background:var(--amber)"></div>
+        <div class="card-body">
+          <div class="card-icon">⚙️</div>
+          <div class="card-title">Como a campanha se organiza</div>
+          <div class="card-text">A estrutura de coordenações, a cadeia de responsabilidades e como cada apoiador se conecta ao resultado coletivo através de atividades concretas.</div>
+          <span class="card-link" onclick="showTab('campanha',null);scrollTo(0,0)">Ler mais →</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="sec-title" style="margin-top:36px">Por que este espaço existe</div>
+    <div class="content-block">
+      <p>Campanhas eleitorais são processos coletivos complexos. A maioria das pessoas que quer participar não sabe exatamente como contribuir — e muitas vezes a própria campanha não sabe como orientar seus apoiadores de forma efetiva.</p>
+      <p>Este espaço existe para reduzir essa distância. Aqui você vai entender como o sistema eleitoral funciona, como as campanhas na era digital operam, e como sua participação — por menor que pareça — se conecta ao resultado final.</p>
+      <div class="destaque-teal destaque">
+        <p>Engajamento sem compreensão é energia desperdiçada. Compreensão sem engajamento é conhecimento inerte. Este espaço junta os dois.</p>
+      </div>
+      <p>O conteúdo aqui é educativo e estratégico. Não é propaganda — é formação. A ideia é que quem passar por este material saia com uma visão clara de como o jogo funciona e como pode jogar melhor.</p>
+    </div>
+  </div>
+</div>
+
+<!-- ENTENDER O JOGO -->
+<div id="tab-jogo" class="tab">
+  <div class="main">
+
+    <div class="content-block">
+      <h2>Como funciona o voto proporcional</h2>
+      <p>A eleição para deputado federal no Brasil usa o sistema proporcional de lista aberta. Isso significa que não basta ter votos — é preciso entender como esses votos se transformam em cadeiras no parlamento.</p>
+
+      <h3>O quociente eleitoral</h3>
+      <p>O quociente eleitoral é o número mínimo de votos que um partido ou federação precisa atingir para ter direito a uma cadeira. Ele é calculado dividindo o total de votos válidos pelo número de vagas disponíveis no estado.</p>
+      <div class="destaque">
+        <p>No Espírito Santo, a Câmara Federal tem 10 vagas. Em 2022, o quociente eleitoral ficou em torno de 208 mil votos por partido. Para uma candidatura individual, o piso estimado é de aproximadamente 20 mil votos.</p>
+      </div>
+      <p>Isso significa que uma candidatura progressista no ES precisa de cerca de 20 mil votos para ter chances reais de eleição — independentemente de quantos votos outros candidatos do mesmo partido tenham.</p>
+
+      <h3>Por que candidaturas de esquerda têm desafios específicos</h3>
+      <p>O sistema proporcional favorece partidos com muitos candidatos e forte estrutura de transferência de votos. Candidaturas progressistas que trabalham fora das grandes máquinas partidárias enfrentam três desafios simultâneos:</p>
+      <ul>
+        <li><strong>Visibilidade restrita:</strong> sem acesso a grandes rádios e TVs, a disputa se dá majoritariamente nas redes — terreno que exige engajamento coordenado, não apenas presença.</li>
+        <li><strong>Base fragmentada:</strong> o eleitorado progressista está distribuído em múltiplos partidos e tendências, tornando a consolidação do voto mais difícil.</li>
+        <li><strong>Recursos limitados:</strong> campanhas progressistas dependem mais de financiamento coletivo e trabalho voluntário do que de grandes doadores.</li>
+      </ul>
+
+      <h3>O que muda essa equação</h3>
+      <p>Dois fatores têm mostrado capacidade real de mudar esse cenário em eleições recentes:</p>
+      <ul>
+        <li><strong>Engajamento coordenado nas redes:</strong> campanhas que transformam seguidores em amplificadores ativos multiplicam seu alcance sem custo proporcional.</li>
+        <li><strong>Conexão com movimentos sociais em ascensão:</strong> candidaturas que se conectam genuinamente com pautas que já estão mobilizando a sociedade chegam a públicos que não chegariam por propaganda tradicional.</li>
+      </ul>
+      <div class="destaque-amber destaque">
+        <p>Toda vez que um movimento social está em ascensão, existe uma janela estratégica para candidaturas que se conectam autenticamente com aquela pauta. E toda vez que existe uma vacância no campo progressista — quando uma referência deixa um espaço —, quem se posiciona logo ocupa esse espaço antes que outros o façam.</p>
+      </div>
+    </div>
+
+    <div class="content-block">
+      <h2>O papel do apoiador no voto proporcional</h2>
+      <p>No voto proporcional, cada apoiador que converte pessoas do seu círculo tem impacto mensurável. Um apoiador ativo que convence 5 pessoas do seu entorno a votar num candidato específico vale muito mais do que 100 curtidas numa postagem.</p>
+
+      <div class="cadeia">
+        <div class="cadeia-item">
+          <div class="cadeia-num" style="color:var(--navy)">1</div>
+          <div class="cadeia-title">Seguidor</div>
+          <div class="cadeia-text">Conhece e acompanha</div>
+          <div class="cadeia-arrow">›</div>
+        </div>
+        <div class="cadeia-item">
+          <div class="cadeia-num" style="color:var(--teal)">2</div>
+          <div class="cadeia-title">Apoiador</div>
+          <div class="cadeia-text">Declara apoio e engaja</div>
+          <div class="cadeia-arrow">›</div>
+        </div>
+        <div class="cadeia-item">
+          <div class="cadeia-num" style="color:var(--amber)">3</div>
+          <div class="cadeia-title">Amplificador</div>
+          <div class="cadeia-text">Leva a mensagem adiante</div>
+          <div class="cadeia-arrow">›</div>
+        </div>
+        <div class="cadeia-item">
+          <div class="cadeia-num" style="color:var(--green)">4</div>
+          <div class="cadeia-title">Eleitor comprometido</div>
+          <div class="cadeia-text">Vota e convence outros</div>
+        </div>
+      </div>
+
+      <p style="margin-top:16px">A campanha que consegue mover o maior número de pessoas do nível 1 para o nível 4 — independentemente do tamanho inicial da base — é a campanha que vence mesmo com menos recursos.</p>
+    </div>
+
+  </div>
+</div>
+
+<!-- CAMPANHA E REDES -->
+<div id="tab-redes" class="tab">
+  <div class="main">
+
+    <div class="content-block">
+      <h2>Como as campanhas mudaram na era das redes</h2>
+      <p>Até meados dos anos 2000, campanhas eleitorais eram disputadas principalmente no rádio, na televisão e nos jornais. Quem tinha mais dinheiro comprava mais espaço e chegava a mais pessoas. A lógica era simples: alcance = recursos.</p>
+      <p>As redes sociais quebraram essa equação. Hoje, uma candidatura com poucos recursos e muitos apoiadores ativos pode alcançar mais pessoas — e com mais efetividade — do que uma campanha milionária com mensagens genéricas.</p>
+
+      <h3>O que mudou de fato</h3>
+      <div class="timeline">
+        <div class="tl-item">
+          <div class="tl-left"><div class="tl-dot"></div><div class="tl-line"></div></div>
+          <div class="tl-body">
+            <div class="tl-title">Antes: broadcast → muitos</div>
+            <div class="tl-text">A comunicação fluía do candidato para o eleitor. Era unidirecional. O eleitor recebia, não participava. O custo de chegada era proporcional ao alcance.</div>
+          </div>
+        </div>
+        <div class="tl-item">
+          <div class="tl-left"><div class="tl-dot"></div><div class="tl-line"></div></div>
+          <div class="tl-body">
+            <div class="tl-title">Agora: rede → rede → rede</div>
+            <div class="tl-text">Cada apoiador é um nó de distribuição. A mensagem viaja de pessoa para pessoa. O custo de chegada não é proporcional ao alcance — é proporcional ao número de nós ativos na rede.</div>
+          </div>
+        </div>
+        <div class="tl-item">
+          <div class="tl-left"><div class="tl-dot"></div></div>
+          <div class="tl-body">
+            <div class="tl-title">O desafio: engajamento coordenado vs. orgânico</div>
+            <div class="tl-text">Presença nas redes não é o mesmo que engajamento. E engajamento espontâneo não é o mesmo que engajamento coordenado. Campanhas que vencem com poucos recursos fazem as três coisas ao mesmo tempo.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="content-block">
+      <h2>O algoritmo e o desafio do alcance orgânico</h2>
+      <p>As plataformas — Instagram, TikTok, YouTube — são empresas. Elas ganham dinheiro com atenção. O algoritmo favorece conteúdo que gera engajamento real: comentários, compartilhamentos, salvamentos, tempo de visualização.</p>
+      <p>Conteúdo político tem um desafio adicional: algumas plataformas reduzem o alcance orgânico de conteúdo eleitoral explícito. Isso significa que uma campanha que depende apenas dos perfis oficiais do candidato está limitando seu próprio alcance.</p>
+      <div class="destaque-teal destaque">
+        <p>A solução não é pagar por alcance — é distribuir o conteúdo por uma rede de apoiadores que o amplificam nos próprios perfis. O algoritmo trata o conteúdo de uma pessoa como conteúdo pessoal, não eleitoral — e isso muda o alcance radicalmente.</p>
+      </div>
+
+      <h3>O que cada plataforma exige</h3>
+      <ul>
+        <li><strong>Instagram:</strong> Reels (15–60s) têm maior alcance orgânico. Carrosséis têm alta taxa de salvamento — sinal positivo para o algoritmo. Stories constroem relação diária.</li>
+        <li><strong>TikTok:</strong> O algoritmo favorece conteúdo novo de contas pequenas, se o vídeo segurar a atenção. É a plataforma com maior potencial de viralização gratuita.</li>
+        <li><strong>WhatsApp:</strong> Não tem algoritmo — tem grupos. A distribuição é pessoal e direta. Material enviado por alguém de confiança tem muito mais impacto do que conteúdo visto num feed.</li>
+      </ul>
+    </div>
+
+    <div class="content-block">
+      <h2>Movimentos sociais como janelas estratégicas</h2>
+      <p>Uma das lições mais consistentes das eleições recentes é que candidaturas que se conectam genuinamente com movimentos sociais em ascensão têm acesso a públicos que não chegariam por propaganda tradicional.</p>
+      <p>O mecanismo é simples: quando uma causa já está mobilizando pessoas — criando grupos, gerando debates, produzindo conteúdo —, uma candidatura que se posiciona com autenticidade naquele espaço chega a redes que já estão ativas e engajadas.</p>
+      <div class="destaque-amber destaque">
+        <p>A palavra-chave é autenticidade. O eleitor que está mobilizado por uma causa consegue distinguir quem defende genuinamente aquela pauta de quem está surfando na onda. A candidatura que se conecta com uma causa precisa ter histórico e coerência — não pode ser oportunismo de última hora.</p>
+      </div>
+      <p>O movimento pelo fim da jornada 6×1 e pela redução das horas de trabalho é um exemplo contemporâneo: mais de 2 milhões de assinaturas, aprovação na Câmara com 461 votos a favor, e uma pauta que chega a 70% dos brasileiros — incluindo públicos que não se identificam com a esquerda tradicional.</p>
+    </div>
+
+    <div class="sec-title">Leituras e referências externas</div>
+    <div class="link-list">
+      <a class="link-item" href="https://agenzai.io/blog/redes-sociais-campanha-eleitoral/" target="_blank">
+        <div class="link-item-icon" style="background:var(--teal-l)">📱</div>
+        <div class="link-item-body">
+          <div class="link-item-title">Redes sociais na campanha eleitoral 2026 — guia por plataforma</div>
+          <div class="link-item-desc">Estratégias específicas para Instagram, TikTok, Facebook e WhatsApp. O que funciona em cada plataforma e as armadilhas a evitar.</div>
+          <div class="link-item-tag">AgenzAI · 2026</div>
+        </div>
+      </a>
+      <a class="link-item" href="https://www.tse.jus.br/comunicacao/noticias/2026/Abril/por-dentro-das-eleicoes-conheca-as-regras-sobre-uso-de-ia-na-campanha-eleitoral-de-2026" target="_blank">
+        <div class="link-item-icon" style="background:var(--navy-l)">⚖️</div>
+        <div class="link-item-body">
+          <div class="link-item-title">Regras sobre IA na campanha eleitoral de 2026 — TSE</div>
+          <div class="link-item-desc">O que é permitido e proibido no uso de inteligência artificial e conteúdo sintético nas campanhas. Informação oficial do Tribunal Superior Eleitoral.</div>
+          <div class="link-item-tag">TSE · Abril 2026</div>
+        </div>
+      </a>
+      <a class="link-item" href="https://tribunadejundiai.com.br/politica/eleicoes-2026/pre-campanha-eleitoral-2026-regras-proibicoes-permissoes-tse" target="_blank">
+        <div class="link-item-icon" style="background:var(--amber-l)">📋</div>
+        <div class="link-item-body">
+          <div class="link-item-title">Pré-campanha 2026: o que pré-candidatos podem e não podem fazer</div>
+          <div class="link-item-desc">Guia completo sobre as regras do TSE para o período de pré-campanha: o que é permitido, o que é proibido e as datas importantes.</div>
+          <div class="link-item-tag">Tribuna de Jundiaí · 2026</div>
+        </div>
+      </a>
+    </div>
+
+  </div>
+</div>
+
+<!-- COMO A CAMPANHA SE ORGANIZA -->
+<div id="tab-campanha" class="tab">
+  <div class="main">
+
+    <div class="content-block">
+      <h2>Por que uma campanha precisa de estrutura</h2>
+      <p>Uma campanha eleitoral com boa vontade mas sem estrutura é como uma empresa sem gestão: as pessoas trabalham, mas os esforços não se somam. O que faz a diferença entre campanhas que chegam ao resultado e campanhas que se perdem no caminho é a capacidade de transformar entusiasmo em ação coordenada.</p>
+      <p>Estrutura não é burocracia — é o conjunto de acordos que permite que muitas pessoas trabalhem na mesma direção sem precisar se falar o tempo todo.</p>
+      <div class="destaque">
+        <p>Uma campanha bem estruturada consegue que cada apoiador saiba exatamente o que fazer naquela semana, sem precisar perguntar. Isso é possível quando a cadeia de responsabilidades está clara do nível estratégico até o operacional.</p>
+      </div>
+    </div>
+
+    <div class="content-block">
+      <h2>Os três níveis de planejamento</h2>
+      <div class="pdca">
+        <div class="pdca-item" style="border-top-color:var(--navy)">
+          <div class="pdca-label" style="color:var(--navy)">Estratégico</div>
+          <div class="pdca-title">O que queremos</div>
+          <div class="pdca-text">Define a direção geral: qual é o candidato, o que ele representa, qual é o objetivo de votos e como a campanha se posiciona.</div>
+        </div>
+        <div class="pdca-item" style="border-top-color:var(--amber)">
+          <div class="pdca-label" style="color:var(--amber)">Tático</div>
+          <div class="pdca-title">Como nos organizamos</div>
+          <div class="pdca-text">Define as coordenações, os desafios de cada uma, os compromissos e as metas. Traduz a estratégia em estrutura operacional.</div>
+        </div>
+        <div class="pdca-item" style="border-top-color:var(--teal)">
+          <div class="pdca-label" style="color:var(--teal)">Operacional</div>
+          <div class="pdca-title">O que cada um faz</div>
+          <div class="pdca-text">Define as atividades concretas de cada pessoa: o quê, quando, onde. É o nível que transforma plano em resultado real.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="content-block">
+      <h2>A cadeia de resultado</h2>
+      <p>Dentro do nível tático, existe uma cadeia que conecta o objetivo geral à ação individual de cada apoiador:</p>
+      <div class="cadeia" style="margin:16px 0">
+        <div class="cadeia-item">
+          <div class="cadeia-num" style="color:var(--navy)">🎯</div>
+          <div class="cadeia-title">Desafio</div>
+          <div class="cadeia-text">Meta de votos da coordenação</div>
+          <div class="cadeia-arrow">›</div>
+        </div>
+        <div class="cadeia-item">
+          <div class="cadeia-num" style="color:var(--teal)">🤝</div>
+          <div class="cadeia-title">Compromisso</div>
+          <div class="cadeia-text">O que a coordenação assume coletivamente</div>
+          <div class="cadeia-arrow">›</div>
+        </div>
+        <div class="cadeia-item">
+          <div class="cadeia-num" style="color:var(--amber)">📊</div>
+          <div class="cadeia-title">Meta</div>
+          <div class="cadeia-text">Quantidade + prazo SMART da coordenação</div>
+          <div class="cadeia-arrow">›</div>
+        </div>
+        <div class="cadeia-item">
+          <div class="cadeia-num" style="color:var(--green)">✅</div>
+          <div class="cadeia-title">Atividade</div>
+          <div class="cadeia-text">O que cada pessoa faz: quem, o quê, quando, onde</div>
+        </div>
+      </div>
+      <p>O desafio e a meta pertencem à coordenação — são coletivos. A atividade pertence a cada pessoa individualmente. Essa separação é importante: libera a campanha de tentar controlar o dia a dia de cada apoiador, e ao mesmo tempo garante que todos saibam o que se espera deles.</p>
+    </div>
+
+    <div class="content-block">
+      <h2>Coordenações de engajamento</h2>
+      <p>Uma campanha orientada a resultado organiza seus apoiadores em coordenações temáticas — grupos que trabalham em frentes específicas para chegar ao objetivo de votos. Cada coordenação tem um desafio próprio e uma lógica de conversão de votos.</p>
+
+      <div class="org" style="margin:24px 0">
+        <div class="org-level">
+          <div class="org-node amber">
+            <div class="org-nt">Candidato</div>
+            <div class="org-ns">Decisões políticas · gera conteúdo · pede apoio</div>
+          </div>
+        </div>
+        <div class="org-conn"></div>
+        <div class="org-level">
+          <div class="org-node">
+            <div class="org-nt">Coordenação Geral</div>
+            <div class="org-ns">Liderança · delegação · monitoramento</div>
+          </div>
+        </div>
+        <div class="org-conn"></div>
+        <div class="org-lbl">Coordenações de Engajamento</div>
+        <div class="org-level">
+          <div class="org-node teal">
+            <div class="org-nt">Rede</div>
+            <div class="org-ns">Engajamento digital coordenado</div>
+          </div>
+          <div class="org-node purple">
+            <div class="org-nt">Educação</div>
+            <div class="org-ns">Lideranças e categorias</div>
+          </div>
+          <div class="org-node" style="border-top-color:var(--amber)">
+            <div class="org-nt">Territórios</div>
+            <div class="org-ns">Presença física e local</div>
+          </div>
+          <div class="org-node coral">
+            <div class="org-nt">Relacionamentos</div>
+            <div class="org-ns">Apoiadores e círculos pessoais</div>
+          </div>
+        </div>
+      </div>
+
+      <h3>O papel dos núcleos de apoiadores</h3>
+      <p>Dentro de cada coordenação, a campanha estimula a formação de <strong>núcleos de apoiadores</strong> — pequenos grupos de 3 a 8 pessoas que se articulam de forma autônoma para amplificar a campanha em seus próprios círculos.</p>
+      <p>Um núcleo pode ser um grupo de WhatsApp entre colegas de trabalho, um conjunto de amigos de um mesmo bairro, ou professores de uma mesma escola. O que os une é o compromisso de agir juntos — compartilhar materiais, engajar nas redes, conversar com as pessoas ao redor.</p>
+      <div class="destaque-teal destaque">
+        <p>A força de um núcleo não está no tamanho — está na consistência. Um grupo de 5 pessoas que age toda semana vale muito mais do que 50 pessoas que curtiram uma postagem.</p>
+      </div>
+    </div>
+
+    <div class="content-block">
+      <h2>O ciclo de gestão — PDCA mensal</h2>
+      <p>Uma campanha bem gerida não improvisa semana a semana — ela opera em ciclos. O ciclo mensal garante que o que foi planejado seja verificado e ajustado antes de começar o mês seguinte.</p>
+      <div class="pdca">
+        <div class="pdca-item">
+          <div class="pdca-label">Plan</div>
+          <div class="pdca-title">1ª semana</div>
+          <div class="pdca-text">Cada coordenação define suas metas e atividades para o mês. Ninguém começa a executar sem plano.</div>
+        </div>
+        <div class="pdca-item">
+          <div class="pdca-label">Do</div>
+          <div class="pdca-title">2ª e 3ª semana</div>
+          <div class="pdca-text">Execução e registro. Cada pessoa sabe o que fazer. Coordenadores acompanham sem microgerenciar.</div>
+        </div>
+        <div class="pdca-item">
+          <div class="pdca-label">Check</div>
+          <div class="pdca-title">Última semana</div>
+          <div class="pdca-text">Verificação do que foi entregue versus o que foi planejado. Honestidade sobre o que funcionou e o que não funcionou.</div>
+        </div>
+        <div class="pdca-item">
+          <div class="pdca-label">Act</div>
+          <div class="pdca-title">1ª semana seguinte</div>
+          <div class="pdca-text">Ajustes aplicados. A aprendizagem do ciclo anterior alimenta o planejamento do próximo.</div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- COMO PARTICIPAR -->
+<div id="tab-participar" class="tab">
+  <div class="main">
+
+    <div class="content-block">
+      <h2>Como você pode contribuir</h2>
+      <p>Existem muitas formas de participar de uma campanha progressista — e nem todas exigem o mesmo tempo ou o mesmo perfil. O mais importante é que cada pessoa encontre uma forma de participação que seja sustentável para ela.</p>
+      <div class="cards cards-2" style="margin:20px 0">
+        <div class="card">
+          <div class="card-color-top" style="background:var(--teal)"></div>
+          <div class="card-body">
+            <div class="card-icon">📱</div>
+            <div class="card-title">Engajamento de rede</div>
+            <div class="card-text">Compartilhar conteúdo, comentar, engajar nas postagens do candidato e produzir conteúdo próprio nos seus perfis. Alta frequência, baixo tempo por ação.</div>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-color-top" style="background:var(--purple)"></div>
+          <div class="card-body">
+            <div class="card-icon">🏫</div>
+            <div class="card-title">Engajamento da educação</div>
+            <div class="card-text">Apresentar a candidatura em organizações, sindicatos, associações e entidades. Ideal para quem tem liderança em alguma categoria profissional ou social.</div>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-color-top" style="background:var(--amber)"></div>
+          <div class="card-body">
+            <div class="card-icon">📍</div>
+            <div class="card-title">Engajamento territorial</div>
+            <div class="card-text">Participar de ações presenciais nos bairros, distribuir material, conversar com pessoas nos espaços de convivência. Para quem tem presença local.</div>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-color-top" style="background:var(--navy)"></div>
+          <div class="card-body">
+            <div class="card-icon">🤝</div>
+            <div class="card-title">Engajamento de relacionamentos</div>
+            <div class="card-text">Convidar pessoas do seu círculo pessoal e profissional para conhecer e apoiar a candidatura. É o engajamento mais direto e com maior taxa de conversão.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="sec-title">Cadastro de interesse</div>
+    <div class="form-box">
+      <h2>Quero participar</h2>
+      <p>Preencha o formulário abaixo para indicar como você gostaria de contribuir com a pré-campanha. Suas informações vão para a coordenação, que entrará em contato para orientar os próximos passos.</p>
+      <div class="placeholder-box">
+        <p>📋 Formulário de cadastro</p>
+        <small>Em breve — a coordenação está finalizando o formulário. Volte em alguns dias.</small>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- NOTÍCIAS E ATUALIZAÇÕES -->
+<div id="tab-noticias" class="tab">
+  <div class="main">
+
+    <div class="content-block">
+      <h2>Notícias e atualizações</h2>
+      <p>Acompanhe aqui as principais notícias do cenário eleitoral nacional, mudanças de regras e atualizações internas da pré-campanha. Conteúdo atualizado pela coordenação.</p>
+    </div>
+
+    <div class="sec-title">Atualizações internas</div>
+    <div class="link-list">
+      <div class="link-item" style="cursor:default">
+        <div class="link-item-icon" style="background:var(--teal-l)">📋</div>
+        <div class="link-item-body">
+          <div class="link-item-title">Formulário de apoiadores em elaboração</div>
+          <div class="link-item-desc">A coordenação está finalizando o formulário de cadastro de apoiadores. Em breve ele estará disponível na aba "Como participar". Fique atento às próximas atualizações.</div>
+          <div class="link-item-tag">Coordenação · Junho 2026</div>
+        </div>
+      </div>
+      <div class="link-item" style="cursor:default">
+        <div class="link-item-icon" style="background:var(--amber-l)">📅</div>
+        <div class="link-item-body">
+          <div class="link-item-title">Encontro de apoiadores — 27/06, Mandacaru</div>
+          <div class="link-item-desc">Primeiro encontro presencial de apoiadores marcado para 27 de junho no Mandacaru. Confirmação de presença pelo WhatsApp da coordenação. Mais detalhes em breve.</div>
+          <div class="link-item-tag">Evento · Junho 2026</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="sec-title" style="margin-top:28px">Cenário eleitoral nacional</div>
+    <div class="link-list">
+
+      <a class="link-item" href="https://www.gazetadopovo.com.br/eleicoes/2026/pesquisa-eleitoral-2026/gerp-presidente-junho-2026/" target="_blank">
+        <div class="link-item-icon" style="background:var(--navy-l)">📊</div>
+        <div class="link-item-body">
+          <div class="link-item-title">Pesquisa GERP — Intenções de voto para presidente · Junho 2026</div>
+          <div class="link-item-desc">Levantamento realizado entre 2 e 5 de junho de 2026 com 2.000 pessoas. Margem de erro de 2,24 pontos percentuais. Registro no TSE: BR-01792/2026. Publicado pela Gazeta do Povo.</div>
+          <div class="link-item-tag">GERP · 9 de junho de 2026</div>
+        </div>
+      </a>
+
+      <a class="link-item" href="https://www.gazetadopovo.com.br/eleicoes/2026/pesquisa-eleitoral-2026/real-time-big-data-presidente-junho-2026/" target="_blank">
+        <div class="link-item-icon" style="background:var(--navy-l)">📊</div>
+        <div class="link-item-body">
+          <div class="link-item-title">Real Time Big Data — Lula 45% × Flávio Bolsonaro 40% · Junho 2026</div>
+          <div class="link-item-desc">Pesquisa divulgada pela CNN Brasil indica vantagem de Lula sobre Flávio Bolsonaro no primeiro turno. Em cenários contra Caiado e Zema, empate técnico. Divulgada em 1º de junho de 2026.</div>
+          <div class="link-item-tag">Real Time Big Data · 1º de junho de 2026</div>
+        </div>
+      </a>
+
+      <a class="link-item" href="https://www.gazetadopovo.com.br/eleicoes/2026/pesquisa-eleitoral-2026/" target="_blank">
+        <div class="link-item-icon" style="background:var(--purple-l)">🗺️</div>
+        <div class="link-item-body">
+          <div class="link-item-title">Acompanhe todas as pesquisas eleitorais 2026 em tempo real</div>
+          <div class="link-item-desc">Agregador da Gazeta do Povo com todas as pesquisas de intenção de voto para presidente, governadores e deputados. Gráficos comparativos e análises atualizadas.</div>
+          <div class="link-item-tag">Gazeta do Povo · Atualizado continuamente</div>
+        </div>
+      </a>
+
+    </div>
+
+    <div class="sec-title" style="margin-top:28px">Regras eleitorais — o que mudou</div>
+    <div class="link-list">
+      <a class="link-item" href="https://tribunadejundiai.com.br/politica/eleicoes-2026/pre-campanha-eleitoral-2026-regras-proibicoes-permissoes-tse" target="_blank">
+        <div class="link-item-icon" style="background:var(--amber-l)">⚖️</div>
+        <div class="link-item-body">
+          <div class="link-item-title">Pré-campanha 2026 — o que pode e o que não pode antes de 16 de agosto</div>
+          <div class="link-item-desc">Guia completo sobre as regras do TSE para o período de pré-campanha. É permitido pedir apoio político sem solicitar votos. A propaganda eleitoral oficial começa em 16 de agosto.</div>
+          <div class="link-item-tag">Tribuna de Jundiaí · Maio 2026</div>
+        </div>
+      </a>
+      <a class="link-item" href="https://www.tse.jus.br/comunicacao/noticias/2026/Maio/por-dentro-das-eleicoes-pre-candidatos-podem-realizar-propaganda-intrapartidaria-a-partir-de-5-de-julho" target="_blank">
+        <div class="link-item-icon" style="background:var(--navy-l)">📣</div>
+        <div class="link-item-body">
+          <div class="link-item-title">A partir de 5 de julho: propaganda intrapartidária permitida — TSE</div>
+          <div class="link-item-desc">Pré-candidatos podem realizar propaganda intrapartidária durante as convenções e nos 15 dias que as antecedem. As convenções ocorrem de 20 de julho a 5 de agosto.</div>
+          <div class="link-item-tag">TSE · Maio 2026</div>
+        </div>
+      </a>
+    </div>
+
+  </div>
+</div>
+
+
+<div id="tab-perguntas" class="tab">
+  <div class="main">
+
+    <div class="sec-title">Perguntas frequentes</div>
+    <div class="faq">
+      <div class="faq-item">
+        <div class="faq-q" onclick="toggleFaq(this)">Como funciona o quociente eleitoral no Espírito Santo? <span>+</span></div>
+        <div class="faq-a">O quociente eleitoral é calculado dividindo o total de votos válidos pelo número de vagas na Câmara Federal para o estado. No ES são 10 vagas. Em 2022, isso resultou em cerca de 208 mil votos por partido. Para uma candidatura individual, o piso estimado está em torno de 20 mil votos para ter chances reais de eleição.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q" onclick="toggleFaq(this)">Quando começa oficialmente a campanha eleitoral? <span>+</span></div>
+        <div class="faq-a">A propaganda eleitoral oficial começa em 16 de agosto de 2026. Antes disso, estamos no período de pré-campanha, onde é permitido construir base, pedir apoio político e realizar atividades de formação e organização — mas não é permitido pedir votos explicitamente.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q" onclick="toggleFaq(this)">O que é engajamento coordenado e por que ele importa? <span>+</span></div>
+        <div class="faq-a">Engajamento coordenado é quando apoiadores combinam de agir ao mesmo tempo e na mesma direção — curtir, comentar, compartilhar — nas postagens de uma candidatura. Isso sinaliza para o algoritmo que aquele conteúdo é relevante, aumentando o alcance orgânico sem custo. Uma campanha com 200 apoiadores coordenados consegue mais visibilidade do que uma com 2000 seguidores passivos.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q" onclick="toggleFaq(this)">Como posso contribuir mesmo tendo pouco tempo disponível? <span>+</span></div>
+        <div class="faq-a">A forma mais eficiente de contribuir com pouco tempo é o engajamento de rede: 10 a 15 minutos por dia, toda vez que o candidato postar algo, para curtir, comentar com uma frase real (não só emoji) e compartilhar nos seus stories. Isso tem impacto real no algoritmo e não exige deslocamento ou grandes disponibilidades.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q" onclick="toggleFaq(this)">O que é um núcleo de apoiadores e como montar um? <span>+</span></div>
+        <div class="faq-a">Um núcleo é um grupo pequeno — 3 a 8 pessoas — que se articula de forma autônoma para amplificar a campanha. Pode ser um grupo de WhatsApp com colegas de trabalho, amigos de um bairro, professores de uma escola. Para montar um, basta convidar pessoas do seu círculo que já apoiam a candidatura e combinar de agir juntas toda semana. A coordenação de relacionamentos pode ajudar com material e orientações.</div>
+      </div>
+    </div>
+
+    <div class="sec-title" style="margin-top:32px">Enviar pergunta ou sugestão</div>
+    <div class="sugestao-box">
+      <h3>Fale com a coordenação</h3>
+      <p>Tem uma dúvida que não está aqui, uma sugestão de conteúdo ou uma ideia para a pré-campanha? Use os canais abaixo para entrar em contato diretamente com a coordenação.</p>
+      <div class="placeholder-box">
+        <p>📩 Canal de contato com a coordenação</p>
+        <small>Em breve — e-mail e WhatsApp da coordenação serão disponibilizados aqui.</small>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- PAINEL DE GESTÃO -->
+<div id="tab-painel" class="tab">
+  <div id="painel-login-screen">
+    <div class="painel-login">
+      <h3>⚙ Painel de Gestão</h3>
+      <p>Acesso restrito à coordenação da pré-campanha.</p>
+      <input type="password" id="painel-pwd" placeholder="senha da coordenação" onkeydown="if(event.key==='Enter')loginPainel()">
+      <button onclick="loginPainel()">Entrar no painel</button>
+      <div class="painel-err" id="painel-err">Senha incorreta.</div>
+    </div>
+  </div>
+
+  <div id="painel-content" style="display:none">
+    <div class="main">
+
+      <div class="meta-total">
+        <div>
+          <div class="meta-num">21.000</div>
+          <div class="meta-label">votos · meta total · Grande Vitória</div>
+        </div>
+        <div style="text-align:right">
+          <div class="meta-tag" id="p-fase-tag">Pré-campanha · jun/2026</div>
+          <div class="meta-conv">Rede: 2 seguidores = 1 voto &nbsp;·&nbsp; Apoiador: 5 votos &nbsp;·&nbsp; Liderança: 50 votos</div>
+        </div>
+      </div>
+
+      <div class="sec-title">Coordenações de Engajamento</div>
+      <div class="cards-g" id="p-cards-eng"></div>
+
+      <div class="sec-title" style="margin-top:22px">Coordenações de Suporte</div>
+      <div class="tbl-w">
+        <table>
+          <thead><tr><th>Coordenação</th><th>Natureza</th><th>Responsável</th><th>Status</th></tr></thead>
+          <tbody>
+            <tr><td style="font-weight:700">Coordenação Geral</td><td>Liderança e monitoramento</td><td>Camila</td><td class="c"><span class="bdg b-a">Em andamento</span></td></tr>
+            <tr><td style="font-weight:700">Suporte de Comunicação</td><td>Gestão contratual + distribuição de conteúdo</td><td>A definir</td><td class="c"><span class="bdg b-av">A definir</span></td></tr>
+            <tr><td style="font-weight:700">Suporte Financeiro</td><td>Controle financeiro e conformidade eleitoral</td><td>A definir</td><td class="c"><span class="bdg b-av">A definir</span></td></tr>
+            <tr><td style="font-weight:700">Suporte Jurídico</td><td>Registro, conformidade legal e ataques</td><td>A definir</td><td class="c"><span class="bdg b-av">A definir</span></td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="sec-title" style="margin-top:22px">Organograma</div>
+      <div style="background:white;border-radius:10px;border:1px solid var(--border);padding:24px">
+        <div class="org-wrap">
+          <div class="org-lv">
+            <div class="org-nd amber"><div class="org-nt">Prof. Vinícius Machado</div><div class="org-ns">Candidato · decisões políticas e estratégicas</div><div class="org-tg">livre de operação</div></div>
+          </div>
+          <div class="org-cn"></div>
+          <div class="org-lv">
+            <div class="org-nd"><div class="org-nt">Coordenação Geral</div><div class="org-ns">Camila · liderança, delegação e monitoramento</div><div class="org-tg" style="background:var(--green-l);color:var(--green)">Contrato: Consultoria de Planejamento</div></div>
+          </div>
+          <div class="org-cn"></div>
+          <div class="org-nivel">Coordenações de Suporte</div>
+          <div class="org-lv">
+            <div class="org-nd gray"><div class="org-nt" style="color:var(--gray)">Suporte de Comunicação</div><div class="org-ns">Braço 1: gestão contratual · Braço 2: distribuição</div></div>
+            <div class="org-nd gray"><div class="org-nt" style="color:var(--gray)">Suporte Financeiro</div><div class="org-ns">A definir</div></div>
+            <div class="org-nd gray"><div class="org-nt" style="color:var(--gray)">Suporte Jurídico</div><div class="org-ns">A definir</div></div>
+          </div>
+          <div class="org-cn"></div>
+          <div class="org-nivel">Coordenações de Engajamento</div>
+          <div class="org-lv">
+            <div class="org-nd teal"><div class="org-nt">Eng. de Rede</div><div class="org-ns">10.500 votos · 50%</div><div class="org-tg">25 núcleos</div></div>
+            <div class="org-nd purple"><div class="org-nt">Eng. da Educação</div><div class="org-ns">6.300 votos · 30%</div><div class="org-tg">25 núcleos</div></div>
+            <div class="org-nd amber"><div class="org-nt">Eng. dos Territórios</div><div class="org-ns">2.100 votos · 10%</div><div class="org-tg">25 núcleos</div></div>
+            <div class="org-nd coral"><div class="org-nt">Eng. dos Relacionamentos</div><div class="org-ns">2.100 votos · 10%</div><div class="org-tg">25 núcleos</div></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="sec-title" style="margin-top:22px">Campos de Preocupação</div>
+      <div class="preoc-lst" id="p-preoc-lst"></div>
+
+    </div>
+  </div>
+</div>
+
+<!-- BOTÃO ATUALIZAR (só aparece no painel) -->
+<button class="update-btn" id="update-btn" onclick="openModal()">✎ Atualizar dados</button>
+
+<!-- MODAL -->
+<div class="modal-bg" id="modal-bg">
+  <div class="modal">
+    <h2>Atualizar dados da semana</h2>
+    <p>Preencha com os números atuais. Ao salvar, um email com o resumo será aberto para envio à coordenação.</p>
+    <div class="field"><label>Data de referência</label><input type="text" id="f-data" placeholder="ex: 14/06/2026"></div>
+    <div class="field"><label>Fase da campanha</label>
+      <select id="f-fase">
+        <option>Pré-campanha · jun/2026</option>
+        <option>Ampliar · jul/2026</option>
+        <option>Consolidar · ago/2026</option>
+        <option>Intensificar · set/2026</option>
+        <option>Confirmar · out/2026</option>
+      </select>
+    </div>
+    <div class="sec-title">Engajamento de Rede</div>
+    <div class="modal-row">
+      <div class="field"><label>Seguidores totais</label><input type="number" id="f-seg" placeholder="0"></div>
+      <div class="field"><label>Núcleos ativos</label><input type="number" id="f-nuc-rede" placeholder="0"></div>
+    </div>
+    <div class="field"><label>Status</label><select id="f-st-rede"><option>Pendente</option><option>Em andamento</option><option>Concluído</option><option>Urgente</option></select></div>
+    <div class="sec-title">Engajamento da Educação</div>
+    <div class="modal-row">
+      <div class="field"><label>Apoiadores comuns</label><input type="number" id="f-apc-educ" placeholder="0"></div>
+      <div class="field"><label>Lideranças</label><input type="number" id="f-lid-educ" placeholder="0"></div>
+    </div>
+    <div class="modal-row">
+      <div class="field"><label>Núcleos ativos</label><input type="number" id="f-nuc-educ" placeholder="0"></div>
+      <div class="field"><label>Status</label><select id="f-st-educ"><option>Pendente</option><option>Em andamento</option><option>Concluído</option><option>Urgente</option></select></div>
+    </div>
+    <div class="sec-title">Engajamento dos Territórios</div>
+    <div class="modal-row">
+      <div class="field"><label>Apoiadores comuns</label><input type="number" id="f-apc-terr" placeholder="0"></div>
+      <div class="field"><label>Lideranças</label><input type="number" id="f-lid-terr" placeholder="0"></div>
+    </div>
+    <div class="modal-row">
+      <div class="field"><label>Núcleos ativos</label><input type="number" id="f-nuc-terr" placeholder="0"></div>
+      <div class="field"><label>Status</label><select id="f-st-terr"><option>Pendente</option><option>Em andamento</option><option>Concluído</option><option>Urgente</option></select></div>
+    </div>
+    <div class="sec-title">Engajamento dos Relacionamentos</div>
+    <div class="modal-row">
+      <div class="field"><label>Apoiadores comuns</label><input type="number" id="f-apc-rel" placeholder="0"></div>
+      <div class="field"><label>Lideranças</label><input type="number" id="f-lid-rel" placeholder="0"></div>
+    </div>
+    <div class="modal-row">
+      <div class="field"><label>Núcleos ativos</label><input type="number" id="f-nuc-rel" placeholder="0"></div>
+      <div class="field"><label>Status</label><select id="f-st-rel"><option>Pendente</option><option>Em andamento</option><option>Concluído</option><option>Urgente</option></select></div>
+    </div>
+    <div class="modal-actions">
+      <button class="modal-cancel" onclick="closeModal()">Cancelar</button>
+      <button class="modal-save" onclick="saveData()">Enviar para a coordenação</button>
+    </div>
+    <div style="margin-top:14px;background:var(--amber-l);border-radius:8px;padding:12px 14px;font-size:11px;color:#7A4A00;line-height:1.6;">
+      ⚠ Os dados serão enviados para <strong>colaboradorrenova@gmail.com</strong>.<br>
+      O painel visual será atualizado até a <strong>meia-noite do mesmo dia</strong>.<br>
+      Os cards <strong>não atualizam automaticamente</strong> — reflectem a última versão publicada.
+    </div>
+  </div>
+</div>
+
+
+  Portal do Apoiador · Cidadão e Rede · Pré-campanha 2026 · Acesso restrito
+</footer>
+
+</div><!-- /site -->
+
+<script>
+const SENHA_PORTAL  = "vinicius50";
+const SENHA_PAINEL  = "vinicius2026";
+const EMAIL_COORD   = "colaboradorrenova@gmail.com";
+
+// ── LOGIN PORTAL ─────────────────────────────────────────────────
+function login() {
+  if (document.getElementById('pwd').value === SENHA_PORTAL) {
+    document.getElementById('login-screen').style.display = 'none';
+    document.getElementById('site').style.display = 'block';
+  } else {
+    document.getElementById('pwd-err').style.display = 'block';
+    document.getElementById('pwd').value = '';
+    document.getElementById('pwd').focus();
+  }
+}
+
+// ── LOGIN PAINEL ─────────────────────────────────────────────────
+function loginPainel() {
+  if (document.getElementById('painel-pwd').value === SENHA_PAINEL) {
+    document.getElementById('painel-login-screen').style.display = 'none';
+    document.getElementById('painel-content').style.display = 'block';
+    document.getElementById('update-btn').classList.add('show');
+    renderPainel();
+  } else {
+    document.getElementById('painel-err').style.display = 'block';
+    document.getElementById('painel-pwd').value = '';
+    document.getElementById('painel-pwd').focus();
+  }
+}
+
+// ── NAVEGAÇÃO ────────────────────────────────────────────────────
+function showTab(name, btn) {
+  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+  document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById('tab-' + name).classList.add('active');
+  if (btn) btn.classList.add('active');
+  else document.querySelectorAll('.nav-btn').forEach(b => {
+    if (b.getAttribute('onclick') && b.getAttribute('onclick').includes("'"+name+"'")) b.classList.add('active');
+  });
+  // esconde botão atualizar se sair do painel
+  if (name !== 'painel') document.getElementById('update-btn').classList.remove('show');
+  else if (document.getElementById('painel-content').style.display !== 'none') {
+    document.getElementById('update-btn').classList.add('show');
+  }
+  window.scrollTo(0,0);
+}
+
+// ── FAQ ──────────────────────────────────────────────────────────
+function toggleFaq(el) {
+  const answer = el.nextElementSibling;
+  const span = el.querySelector('span');
+  const isOpen = answer.classList.contains('open');
+  document.querySelectorAll('.faq-a').forEach(a => a.classList.remove('open'));
+  document.querySelectorAll('.faq-q span').forEach(s => s.textContent = '+');
+  if (!isOpen) { answer.classList.add('open'); span.textContent = '−'; }
+}
+
+// ── DADOS PAINEL ─────────────────────────────────────────────────
+const PD = {
+  data: "11/06/2026", fase: "Pré-campanha · jun/2026",
+  rede:    { seg: 0, nucleos: 0, status: "Pendente" },
+  educacao:{ apc: 0, lid: 0, nucleos: 0, status: "Pendente" },
+  terr:    { apc: 0, lid: 0, nucleos: 0, status: "Pendente" },
+  rel:     { apc: 0, lid: 0, nucleos: 0, status: "Pendente" },
+};
+
+function bdg(s) {
+  const m = {"Pendente":"b-p","Em andamento":"b-a","Concluído":"b-c","Urgente":"b-u"};
+  return `<span class="bdg ${m[s]||'b-av'}">${s}</span>`;
+}
+function pct(v,m) { return Math.min(100, Math.round(v/m*100)); }
+
+function renderPainel() {
+  document.getElementById('p-fase-tag').textContent = PD.fase;
+  const vRede  = Math.round(PD.rede.seg/2);
+  const vEduc  = PD.educacao.apc*5 + PD.educacao.lid*50;
+  const vTerr  = PD.terr.apc*5 + PD.terr.lid*50;
+  const vRel   = PD.rel.apc*5 + PD.rel.lid*50;
+
+  const coords = [
+    { nome:"Engajamento de Rede", cor:"teal", desafio:"10.500", pct_num:50,
+      votos: vRede, meta_v:10500,
+      inds:[
+        {l:"Seguidores (meta: 21.000)", v:PD.rede.seg.toLocaleString('pt-BR'), s:pct(PD.rede.seg,21000)+"%"},
+        {l:"Núcleos ativos (meta: 25)",  v:PD.rede.nucleos, s:pct(PD.rede.nucleos,25)+"%"},
+      ], status: PD.rede.status, vetores:["VAT","Vacância Helder"] },
+    { nome:"Engajamento da Educação", cor:"purple", desafio:"6.300", pct_num:30,
+      votos: vEduc, meta_v:6300,
+      inds:[
+        {l:"Apoiadores comuns (meta: 115)", v:PD.educacao.apc, s:pct(PD.educacao.apc,115)+"%"},
+        {l:"Lideranças (meta: 115)",         v:PD.educacao.lid, s:pct(PD.educacao.lid,115)+"%"},
+        {l:"Núcleos ativos (meta: 25)",       v:PD.educacao.nucleos, s:pct(PD.educacao.nucleos,25)+"%"},
+      ], status: PD.educacao.status, vetores:["VAT","Vacância Helder"] },
+    { nome:"Engajamento dos Territórios", cor:"amber", desafio:"2.100", pct_num:10,
+      votos: vTerr, meta_v:2100,
+      inds:[
+        {l:"Apoiadores comuns (meta: 38)", v:PD.terr.apc, s:pct(PD.terr.apc,38)+"%"},
+        {l:"Lideranças (meta: 38)",         v:PD.terr.lid, s:pct(PD.terr.lid,38)+"%"},
+        {l:"Núcleos ativos (meta: 25)",     v:PD.terr.nucleos, s:pct(PD.terr.nucleos,25)+"%"},
+      ], status: PD.terr.status, vetores:["Vacância Helder"] },
+    { nome:"Engajamento dos Relacionamentos", cor:"coral", desafio:"2.100", pct_num:10,
+      votos: vRel, meta_v:2100,
+      inds:[
+        {l:"Apoiadores comuns (meta: 38)", v:PD.rel.apc, s:pct(PD.rel.apc,38)+"%"},
+        {l:"Lideranças (meta: 38)",         v:PD.rel.lid, s:pct(PD.rel.lid,38)+"%"},
+        {l:"Núcleos ativos (meta: 25)",     v:PD.rel.nucleos, s:pct(PD.rel.nucleos,25)+"%"},
+      ], status: PD.rel.status, vetores:[] },
+  ];
+
+  const vColors = {"VAT":"b-vat","Vacância Helder":"b-helder"};
+  document.getElementById('p-cards-eng').innerHTML = coords.map(e => `
+    <div class="card-g">
+      <div class="card-hd">
+        <div class="card-dot" style="background:var(--${e.cor})"></div>
+        <div class="card-nm" style="color:var(--${e.cor})">${e.nome}</div>
+      </div>
+      <div class="card-bd">
+        <div class="big-num" style="color:var(--${e.cor})">${e.desafio}</div>
+        <div class="big-lbl">votos · ${e.pct_num}% da meta total</div>
+        ${e.vetores.length ? `<div style="display:flex;gap:4px;flex-wrap:wrap;margin-bottom:10px">${e.vetores.map(v=>`<span class="bdg" style="background:var(--teal-l);color:var(--teal);font-size:9px">${v}</span>`).join('')}</div>` : ''}
+        ${e.inds.map(i=>`<div class="ind-r"><span class="ind-l">${i.l}</span><span class="ind-v">${i.v} <span style="font-weight:400;font-size:10px;color:var(--text-2)">${i.s}</span></span></div>`).join('')}
+        <div class="ind-r"><span class="ind-l">Votos estimados</span><span class="ind-v" style="color:var(--${e.cor})">${e.votos.toLocaleString('pt-BR')} <span style="font-weight:400;font-size:10px;color:var(--text-2)">${pct(e.votos,e.meta_v)}%</span></span></div>
+        <div class="ind-r"><span class="ind-l">Status</span>${bdg(e.status)}</div>
+      </div>
+    </div>
+  `).join('');
+
+  // Preocupações
+  const PREOC = [
+    {nivel:"alto",titulo:"Posicionamento Vinícius × campanha do Helder",desc:"Decisão estratégica ainda em aberto sobre estar dentro do arco da campanha do Helder ao governo.",obs:"Resolver com urgência — impacta Eng. Territórios e Rede"},
+    {nivel:"alto",titulo:"Posicionamento reativo — governo Lula",desc:"Apoiadores falam sem diretriz clara. Risco de mensagens contraditórias.",obs:"Lacuna estratégica. Sem resolução."},
+    {nivel:"alto",titulo:"Vácuo eleitoral — velocidade de ocupação",desc:"78 mil votos do Helder na Grande Vitória ficarão sem candidato natural em 2026.",obs:"Ação prioritária: mapear bairros e lideranças"},
+    {nivel:"alto",titulo:"Alcance orgânico — Instagram",desc:"Algoritmo limita conteúdo político. TikTok ainda não está ativo.",obs:"Diretriz de contorno a definir"},
+    {nivel:"alto",titulo:"Linguagem de massificação",desc:"Sem repertório de bandeiras simples e frases curtas para apoiadores.",obs:"Brainstorming a agendar"},
+    {nivel:"medio",titulo:"Comunicação do candidato — assertividade",desc:"Tendência a justificar onde assertividade seria mais eficaz.",obs:"Trabalho contínuo"},
+    {nivel:"medio",titulo:"Segurança digital",desc:"Sem protocolo definido para redes e candidato.",obs:""},
+    {nivel:"medio",titulo:"Arco de apoio — organizações de esquerda",desc:"Relações com PCN, PCBR e tendências internas do PSOL não mapeadas.",obs:""},
+  ];
+  document.getElementById('p-preoc-lst').innerHTML = PREOC.map(p=>`
+    <div class="preoc-it">
+      <div class="preoc-bv ${p.nivel}"></div>
+      <div class="preoc-bo">
+        <div class="preoc-tt">${p.titulo} <span class="bdg ${p.nivel==='alto'?'b-u':'b-a'}" style="font-size:9px;margin-left:6px">${p.nivel==='alto'?'Alto':'Médio'}</span></div>
+        <div class="preoc-dc">${p.desc}</div>
+        ${p.obs?`<div class="preoc-ob">↳ ${p.obs}</div>`:''}
+      </div>
+    </div>
+  `).join('');
+}
+
+// ── MODAL ────────────────────────────────────────────────────────
+function openModal() {
+  document.getElementById('f-data').value = PD.data;
+  document.getElementById('f-fase').value = PD.fase;
+  document.getElementById('f-seg').value = PD.rede.seg||'';
+  document.getElementById('f-nuc-rede').value = PD.rede.nucleos||'';
+  document.getElementById('f-st-rede').value = PD.rede.status;
+  document.getElementById('f-apc-educ').value = PD.educacao.apc||'';
+  document.getElementById('f-lid-educ').value = PD.educacao.lid||'';
+  document.getElementById('f-nuc-educ').value = PD.educacao.nucleos||'';
+  document.getElementById('f-st-educ').value = PD.educacao.status;
+  document.getElementById('f-apc-terr').value = PD.terr.apc||'';
+  document.getElementById('f-lid-terr').value = PD.terr.lid||'';
+  document.getElementById('f-nuc-terr').value = PD.terr.nucleos||'';
+  document.getElementById('f-st-terr').value = PD.terr.status;
+  document.getElementById('f-apc-rel').value = PD.rel.apc||'';
+  document.getElementById('f-lid-rel').value = PD.rel.lid||'';
+  document.getElementById('f-nuc-rel').value = PD.rel.nucleos||'';
+  document.getElementById('f-st-rel').value = PD.rel.status;
+  document.getElementById('modal-bg').classList.add('open');
+}
+function closeModal() { document.getElementById('modal-bg').classList.remove('open'); }
+
+function saveData() {
+  const data    = document.getElementById('f-data').value||PD.data;
+  const fase    = document.getElementById('f-fase').value;
+  const seg     = parseInt(document.getElementById('f-seg').value)||0;
+  const nucRede = parseInt(document.getElementById('f-nuc-rede').value)||0;
+  const stRede  = document.getElementById('f-st-rede').value;
+  const apcEduc = parseInt(document.getElementById('f-apc-educ').value)||0;
+  const lidEduc = parseInt(document.getElementById('f-lid-educ').value)||0;
+  const nucEduc = parseInt(document.getElementById('f-nuc-educ').value)||0;
+  const stEduc  = document.getElementById('f-st-educ').value;
+  const apcTerr = parseInt(document.getElementById('f-apc-terr').value)||0;
+  const lidTerr = parseInt(document.getElementById('f-lid-terr').value)||0;
+  const nucTerr = parseInt(document.getElementById('f-nuc-terr').value)||0;
+  const stTerr  = document.getElementById('f-st-terr').value;
+  const apcRel  = parseInt(document.getElementById('f-apc-rel').value)||0;
+  const lidRel  = parseInt(document.getElementById('f-lid-rel').value)||0;
+  const nucRel  = parseInt(document.getElementById('f-nuc-rel').value)||0;
+  const stRel   = document.getElementById('f-st-rel').value;
+
+  const vRede  = Math.round(seg/2);
+  const vEduc  = apcEduc*5 + lidEduc*50;
+  const vTerr  = apcTerr*5 + lidTerr*50;
+  const vRel   = apcRel*5  + lidRel*50;
+  const vTotal = vRede+vEduc+vTerr+vRel;
+  const pTotal = Math.round(vTotal/21000*100);
+
+  const assunto = encodeURIComponent(`Atualização painel campanha — ${data}`);
+  const corpo = encodeURIComponent(
+`ATUALIZAÇÃO DO PAINEL DE GESTÃO
+Data: ${data} · Fase: ${fase}
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+ENGAJAMENTO DE REDE
+Seguidores: ${seg.toLocaleString('pt-BR')} (meta: 21.000)
+Votos estimados: ${vRede.toLocaleString('pt-BR')}
+Núcleos ativos: ${nucRede} (meta: 25)
+Status: ${stRede}
+
+ENGAJAMENTO DA EDUCAÇÃO
+Apoiadores comuns: ${apcEduc} (meta: 115)
+Lideranças: ${lidEduc} (meta: 115)
+Votos estimados: ${vEduc.toLocaleString('pt-BR')}
+Núcleos ativos: ${nucEduc} (meta: 25)
+Status: ${stEduc}
+
+ENGAJAMENTO DOS TERRITÓRIOS
+Apoiadores comuns: ${apcTerr} (meta: 38)
+Lideranças: ${lidTerr} (meta: 38)
+Votos estimados: ${vTerr.toLocaleString('pt-BR')}
+Núcleos ativos: ${nucTerr} (meta: 25)
+Status: ${stTerr}
+
+ENGAJAMENTO DOS RELACIONAMENTOS
+Apoiadores comuns: ${apcRel} (meta: 38)
+Lideranças: ${lidRel} (meta: 38)
+Votos estimados: ${vRel.toLocaleString('pt-BR')}
+Núcleos ativos: ${nucRel} (meta: 25)
+Status: ${stRel}
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+TOTAL ESTIMADO: ${vTotal.toLocaleString('pt-BR')} votos (${pTotal}% da meta de 21.000)
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+O painel visual será atualizado até a meia-noite deste dia.
+Envie estes dados para Felipe para gerar a nova versão do site.
+
+Campanha Prof. Vinícius Machado — Deputado Federal 2026`);
+
+  window.location.href = `mailto:${EMAIL_COORD}?subject=${assunto}&body=${corpo}`;
+  closeModal();
+}
+</script>
+</body>
+</html>
